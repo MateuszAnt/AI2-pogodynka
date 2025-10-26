@@ -14,17 +14,9 @@ class LocationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('city', null, [
-                'attr' => [
-                    'placeholder' => 'Enter city name',
-                ]
-            ])
-            ->add('latitude', NumberType::class, [
-
-            ])
-            ->add('longitude', NumberType::class, [
-
-            ])
+            ->add('city', null)
+            ->add('latitude', NumberType::class)
+            ->add('longitude', NumberType::class)
             ->add('country', ChoiceType::class, [
                 'choices' => [
                     'Poland' => 'PL',
@@ -32,11 +24,10 @@ class LocationType extends AbstractType
                     'France' => 'FR',
                     'Spain' => 'ES',
                     'Italy' => 'IT',
-                    'United Kingdow' => 'GB',
+                    'United Kingdom' => 'GB',
                     'United States' => 'US'
-                ]
-            ])
-        ;
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

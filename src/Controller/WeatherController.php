@@ -11,28 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class WeatherController extends AbstractController
 {
-//    #[Route('/weather/{id}', name: 'app_weather', requirements: ['id' => '\d+'])]
-//    public function city(Location $location, MeasurementRepository $repository): Response
-//    {
-//        $measurements = $repository->findByLocation($location);
-//
-//        return $this->render('weather/city.html.twig', [
-//            'controller_name' => 'WeatherController',
-//            'location' => $location,
-//            'measurements' => $measurements,
-//        ]);
-//    }
-
-    #[Route('/weather/{country}/{city}', name: 'app_weather')]
-    public function city(
-        #[MapEntity(mapping: ['city' => 'city', 'country' => 'country'])]
-        ?Location $location,
-        MeasurementRepository $repository): Response
+    #[Route('/weather/{id}', name: 'app_weather', requirements: ['id' => '\d+'])]
+    public function city(Location $location, MeasurementRepository $repository): Response
     {
-        if (!$location) {
-            throw $this->createNotFoundException("City not found.");
-        }
-
         $measurements = $repository->findByLocation($location);
 
         return $this->render('weather/city.html.twig', [
@@ -41,4 +22,23 @@ final class WeatherController extends AbstractController
             'measurements' => $measurements,
         ]);
     }
+
+//    #[Route('/weather/{country}/{city}', name: 'app_weather')]
+//    public function city(
+//        #[MapEntity(mapping: ['city' => 'city', 'country' => 'country'])]
+//        ?Location $location,
+//        MeasurementRepository $repository): Response
+//    {
+//        if (!$location) {
+//            throw $this->createNotFoundException("City not found.");
+//        }
+//
+//        $measurements = $repository->findByLocation($location);
+//
+//        return $this->render('weather/city.html.twig', [
+//            'controller_name' => 'WeatherController',
+//            'location' => $location,
+//            'measurements' => $measurements,
+//        ]);
+//    }
 }

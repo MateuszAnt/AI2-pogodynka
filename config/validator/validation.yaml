@@ -1,0 +1,87 @@
+App\Entity\Location:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: ['city', 'latitude', 'longitude']
+              message: 'This location already exists.'
+    properties:
+        city:
+            - NotBlank:
+                  message: 'Enter city name.'
+            - Length:
+                  min: 2
+                  max: 255
+                  minMessage: 'This value should be between 2 and 255.'
+                  maxMessage: 'This value should be between 2 and 255.'
+        latitude:
+            - NotBlank:
+                  message: 'Enter latitude value.'
+            - Range:
+                  min: -90
+                  max: 90
+                  notInRangeMessage: 'This value should be between -90 and 90.'
+        longitude:
+            - NotBlank:
+                  message: 'Enter longitude value.'
+            - Range:
+                  min: -180
+                  max: 180
+                  notInRangeMessage: 'This value should be between -180 and 180.'
+        country:
+            - NotBlank:
+                  message: 'Select a country.'
+            - Choice:
+                  choices: ['PL', 'DE', 'FR', 'ES', 'IT', 'GB', 'US']
+
+App\Entity\Measurement:
+    constraints:
+        -   Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+                fields: [ 'timestamp', 'location', ]
+                message: 'Measurement for this timestamp and location already exists.'
+    properties:
+        timestamp:
+            - NotBlank:
+                  message: 'Enter timestamp.'
+        temperature:
+            - NotBlank:
+                  message: 'Enter temperature.'
+            - Range:
+                  min: -300
+                  max: 100
+                  notInRangeMessage: 'This value should be between -300 and 100.'
+        cloudCoverage:
+            - NotBlank:
+                  message: 'Enter cloud coverage.'
+            - Range:
+                  min: 0
+                  max: 100
+                  notInRangeMessage: 'This value should be between 0 and 100.'
+        humidity:
+            - NotBlank:
+                  message: 'Enter humidity.'
+            - Range:
+                  min: 0
+                  max: 100
+                  notInRangeMessage: 'This value should be between 0 and 100.'
+        windSpeed:
+            - NotBlank:
+                  message: 'Enter wind speed.'
+            - Range:
+                  min: 0
+                  max: 500
+                  notInRangeMessage: 'This value should be between 0 and 500.'
+        windDirection:
+            - NotBlank:
+                  message: 'Enter wind direction.'
+            - Choice:
+                  choices: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
+        pressure:
+            - NotBlank:
+                  message: 'Enter pressure.'
+            - Range:
+                  min: 0
+                  max: 1200
+                  notInRangeMessage: 'This value should be between 0 and 1200.'
+        location:
+            - NotBlank:
+                  message: 'Enter location.'
+
