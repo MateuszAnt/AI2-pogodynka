@@ -4,23 +4,23 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory:
-            memory:
-                users:
-                    admin:
-                        password: '$2y$13$xbd2iK0dMDxX.sNXv9sv3.ZB0NQYK74I167xb385ATKTUzygEnGT2'
-                        roles:
-                            - 'ROLE_ADMIN'
-                            - 'ROLE_USER'
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
-            http_basic:
-                realm: 'My Secured Area'
+            provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            logout:
+                path: app_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -34,6 +34,21 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/, roles: PUBLIC_ACCESS}
+
+    role_hierarchy:
+        ROLE_ADMIN:
+            - ROLE_USER
+            - ROLE_LOCATION_EDIT
+            - ROLE_LOCATION_SHOW
+            - ROLE_LOCATION_NEW
+            - ROLE_MEASUREMENT_EDIT
+            - ROLE_MEASUREMENT_SHOW
+            - ROLE_MEASUREMENT_NEW
+        ROLE_USER:
+            - ROLE_LOCATION_INDEX
+            - ROLE_LOCATION_SHOW
+            - ROLE_MEASUREMENT_INDEX
+            - ROLE_MEASUREMENT_SHOW
 
 when@test:
     security:
